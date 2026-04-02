@@ -1,19 +1,23 @@
-// enforces that this code can only be called on the server
-// https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#keeping-server-only-code-out-of-the-client-environment
 import "server-only";
 
 import { cookies } from "next/headers";
-import { initializeServerApp, initializeApp } from "firebase/app";
-
+import { initializeServerApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// Returns an authenticated client SDK instance for use in Server Side Rendering
-// and Static Site Generation
+const firebaseConfig = {
+  apiKey: "AIzaSyCtlyTj2khefVI3VdFxpfnx07WLFQv6Pr0",
+  authDomain: "friendlyeats-codelab-b35ea.firebaseapp.com",
+  projectId: "friendlyeats-codelab-b35ea",
+  storageBucket: "friendlyeats-codelab-b35ea.firebasestorage.app",
+  messagingSenderId: "513004782473",
+  appId: "1:513004782473:web:566f8c36299d17860f5758"
+};
+
 export async function getAuthenticatedAppForUser() {
   const authIdToken = (await cookies()).get("__session")?.value;
 
   const firebaseServerApp = initializeServerApp(
-    initializeApp(),
+    firebaseConfig,
     {
       authIdToken,
     }
